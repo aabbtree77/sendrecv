@@ -5,7 +5,7 @@ The idea is to avoid complicated setups and protocols and rely on git push and g
 
 An example code between a "server" and a "client" can be found in these repositories:
 
-  - [Code to be cloned to PC-A](https://github.com/aabbtree77/sendrecva)
+  - [Code to be cloned to PC-A](https://github.com/aabbtree77/sendrecva).
   
   - [Code to be cloned to PC-B](https://github.com/aabbtree77/sendrecvb).
 
@@ -34,7 +34,7 @@ An example code deserves a brief description:
 1. The repo "sendrecva" is initially cloned to the computer PC-A. This computer will later only "git push" to its remote branch, no "git fetch" or "git pull" will ever take place.
   To get data, PC-A clones the PCB_data.json file from "sendrecvb" into its temp folder, reads the keys and values and deletes the "temp" folder so that the next "git clone" to the same "temp" folder becomes available.
   
-2. Similarly with "sendrecvb" which will only push to its remote branch and will read via "git clone sendrecvb temp".
+2. Similarly with "sendrecvb" on PC-B which will only push to its remote branch and will read via "git clone sendrecva temp".
 
 3. PC-A: execute "python3 PCA_run.py readvals" in the terminal.
 
