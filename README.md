@@ -12,14 +12,14 @@ An example code between a "server" and a "client" can be found in these reposito
 ## Problem/Motivation
 
 How do you send messages from a computer A to a computer B globally via internet without a pain? 
-Imagine a situation typical to an embedded setup. One needs to control some remote board (which communicates with some PC-A on its LAN) from some PC-B (located outside 
+Imagine a situation typical to an embedded setup. One needs to control a remote board (which communicates with some PC-A on its LAN) from some PC-B (located outside 
 of the LAN).
 
 The messages can be small text commands, they can be open/visible to anyone, but only PC-A and PC-B can send them. The messages may arrive slowly, in seconds or minutes.
 
-An example application is monitoring the temperature of a green house and watering its plants remotely.
+An example application is monitoring temperature of a greenhouse and watering its plants remotely.
 
-Locally, the MQTT protocol with the Mosquitto broker is a solid answer, but this option does not extend globally.
+Locally, the MQTT protocol with the Mosquitto broker on Ubuntu is a solid answer, but this option does not extend globally.
 
 One gets tired of dealing with router configurations, ssh, tunneling, Ubuntu, Wayland vs X11, VNC, RDP, MQTT, Remmina, TeamViewer, AnyDesk, CloudMQTT, HiveMQ, RustDesk, UDP and TCP hole punching, p2p torrents. If you are lucky, you can do a simple port forwarding in your router and use a slowly changing global IP and the port number to connect to any computer globally with Remmina, but that seems to work only with certain ISP NAT configurations. In general, one needs a reliable 3rd party service to communicate on the web, preferably free and also hassle-free.
 
@@ -40,7 +40,7 @@ An example code deserves a brief description:
 
 4. PC-B: execute "python3 PCB_run.py".
 
-Sometimes if the program is halted with ctrl+C or you start modifying code remotely, or something goes out of sync initially:
+If the program is halted with ctrl+C or you start modifying code remotely, or something goes out of sync initially:
 
   - rm -rf temp 
   - git pull origin main --rebase
