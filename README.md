@@ -1,13 +1,11 @@
 ## Introduction
 
-This is a memo which documents a way to send messages from computer to computer via internet.
+This is a memo which documents a way to send messages from computer to computer via the internet.
 The idea is to avoid complicated setups and protocols and rely on "git push" and "git clone" provided by Github as a free 3rd party service.
 
-An example "server"/"client" code can be found in these repositories:
+*Warning 1. "git push" and "git clone" may require quite some initial setup to be used as "send" and "receive". This is also a very raw code and strictly a prototype for slow messaging as the code will incrementally flood your github folder history with each file update. As an example, communicating a json object with a few elements every 30 minutes has increased my .git folder by 60KB in 5 days. Thus, exchanging a single value message every 10s. between two peers for a month will yield two .git folders each as large as roughly 60KB*30*6*6=65MB. A year of such a continuous communication is likely to exceed your free github user quota.*
 
-  - [Code to be cloned to PC-A](https://github.com/aabbtree77/sendrecva).
-  
-  - [Code to be cloned to PC-B](https://github.com/aabbtree77/sendrecvb).
+*Warning 2. IPFS could be a much better way to implement a simple file-based communication accessible globally, less setup, more decentralization, it simply the right tool. However, it is not clear if IPFS will always expose every node behind any NAT configuration, while this silly-looking github way will **ALWAYS** work irrespectively of the network configuration.* 
 
 ## Problem/Motivation
 
@@ -31,7 +29,9 @@ In order not to have pushing conflicts when a remote branch is already updated, 
 
 An example code deserves a brief description:
 
-1. The repo "sendrecva" is initially cloned to the computer PC-A. This computer will later only "git push" to its remote branch, no "git fetch" or "git pull" will ever take place.
+0. The subfolders "sendrecva" and "sendrecvb" must first be placed on github as ordinary repos with their initial .git subfolders.
+
+1. The repo "sendrecva" is initially cloned to the computer PC-A with its git remote origin configured aftwerwards with the corresponding access token. This computer will later only "git push" to its remote branch, no "git fetch" or "git pull" will ever take place.
   To get data, PC-A clones the PCB_data.json file from "sendrecvb" into its temp folder, reads the keys and values and deletes the "temp" folder so that the next "git clone" to the same "temp" folder becomes available.
   
 2. Similarly with "sendrecvb" on PC-B which will only push to its remote branch and will read via "git clone sendrecva temp".
@@ -50,7 +50,7 @@ If the program is halted with ctrl+C or you start modifying code remotely, or so
   
 Notice that there is no "git fetch" or "git pull" inside the codes, only "git clone", which is critical to automation and avoiding conflicts. The latter can only appear during the initial setup or restart after some remote code modifications.
 
-The downside of this approach is that each peer/communicating node needs to register on github.com first, create a repo, set up its access token. Thus, the end user of such a communication would be, say, a Python coder who wants to make his LAN nodes global by sending messages from PC to PC via the Internet, in code, without having to deal with anything other than github.com. I find setting up and testing my github repositories a lot easier and more reliable than dealing with any 3rd party MQTT broker or remote desktop software.
+The downside of this approach is that each peer/communicating node needs to register on github.com first, create a repo, set its access token. Thus, the end user of such a communication would be, say, a Python coder who wants to make his LAN nodes global by sending messages from PC to PC via the internet, in code, without having to deal with anything other than github.com. I find setting up and testing my github repositories a lot easier and more reliable than dealing with any 3rd party MQTT broker or remote desktop software.
 
 ## References (Inspiration, Alternatives, Deeper and More Complex Ideas)
 
