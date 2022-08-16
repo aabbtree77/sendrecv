@@ -3,7 +3,7 @@
 This is a memo which documents a way to send messages from computer to computer via the internet.
 The idea is to avoid complicated setups and protocols and rely on "git push" and "git clone" provided by Github as a free 3rd party service.
 
-*Warning 1. "git push" and "git clone" may require quite some initial setup to be used as "send" and "receive". This is also a very raw code and strictly a prototype for slow messaging as the code will incrementally flood your github folder history with each file update. As an example, communicating a json object with a few elements every 30 minutes has increased my .git folder by 60KB in 5 days. Thus, exchanging a single value message every 10s. between two peers for a month will yield two .git folders each as large as roughly 60KB*30*6*6=65MB. A year of such a continuous communication is likely to exceed your free github user quota.*
+*Warning 1. "git push" and "git clone" may require quite some initial setup to be used as "send" and "receive". This is also a very raw code and strictly a prototype for slow messaging as the code will incrementally flood your github folder history with each file update. As an example, communicating a json object with a few elements every 30 minutes has increased my .git folder by 60KB in 5 days. Thus, exchanging a single value message every 10s. between two peers for a month will yield two .git folders each as large as roughly 60KBx30x6x6=65MB. A year of such a continuous communication is likely to exceed your free github user quota.*
 
 *Warning 2. IPFS could be a much better way to implement a simple file-based communication accessible globally, less setup, more decentralization, it simply the right tool. However, it is not clear if IPFS will always expose every node behind any NAT configuration, while this silly-looking github way will **ALWAYS** work irrespectively of the network configuration.* 
 
@@ -19,17 +19,17 @@ An example application is monitoring temperature of a greenhouse and watering it
 
 Locally, the MQTT protocol with the Mosquitto broker on Ubuntu is a solid answer, but this option does not extend globally.
 
-One gets tired of dealing with router configurations, ssh, tunneling, firewalls, version changes, Wayland vs X11, VNC, RDP, MQTT, Remmina, TeamViewer, AnyDesk, CloudMQTT, HiveMQ, RustDesk, UDP and TCP hole punching, p2p torrents. If you are lucky, you can do a simple port forwarding in your router and use a slowly changing global IP and the port number to connect to any computer globally with Remmina, but that seems to work only with certain ISP NAT configurations. In general, one needs a reliable 3rd party service to communicate on the web, preferably free and also hassle-free.
+One gets tired of dealing with multiple router configurations, ssh, tunneling, firewalls, hole punching, endless breaking changes, Wayland vs X11, VNC, RDP, MQTT, Remmina, TeamViewer, AnyDesk, CloudMQTT, HiveMQ, RustDesk... go-libp2p pubsub? If you are lucky, you can do a simple port forwarding in your router and use a slowly changing global IP and the port number to connect to any computer globally with Remmina, but that seems to work only with certain ISP NAT configurations. Unless IPFS is the answer, one may need a reliable 3rd party service to communicate on the web, preferably free and also hassle-free.
 
 There are not that many choices. A mail service comes to mind, but also github, and this code is the demo of using the latter.  
 
-The idea is to communicate by uploading json files to any peer's github repo and cloning the others in the "read only" mode thus exchanging Python dictionaries/Json objects.
+The idea is to communicate by uploading json files to any peer's github repo and cloning the others in the "read only" mode.
 
-In order not to have pushing conflicts when a remote branch is already updated, let's use one github repo per peer/client/server which will be duplicated on remote "origin" (github) and local "main" (peer's PC).
+In order not to have pushing conflicts when a remote branch is already updated, let's use one github repo per peer/client/server which will also be duplicated: Every peer will have its remote git "origin" (say on github.com) and local "main" (peer's PC or even Android).
 
 An example code deserves a brief description:
 
-0. The subfolders "sendrecva" and "sendrecvb" must first be placed on github as ordinary repos with their initial .git subfolders.
+0. The subfolders "sendrecva" and "sendrecvb" must first be set up on github as independent ordinary repos with their initial .git subfolders.
 
 1. The repo "sendrecva" is initially cloned to the computer PC-A with its git remote origin configured aftwerwards with the corresponding access token. This computer will later only "git push" to its remote branch, no "git fetch" or "git pull" will ever take place.
   To get data, PC-A clones the PCB_data.json file from "sendrecvb" into its temp folder, reads the keys and values and deletes the "temp" folder so that the next "git clone" to the same "temp" folder becomes available.
