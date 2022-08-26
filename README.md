@@ -19,9 +19,9 @@ An example application is monitoring temperature of a greenhouse and watering it
 
 Locally, the MQTT protocol with the Mosquitto broker on Ubuntu is a solid answer, but this option does not extend globally.
 
-It is assumed that both of the computers run Linux and have access to the internet, but port forwarding is broken. There is no need to RDC/ssh to any of them, they just, say, Python programs whose flow depends on the messages they receive.
+It is assumed that both of the computers run Linux and have access to the internet, but port forwarding is broken. Having RDC/ssh is too much, the computers simply run Python programs which depend on the messages they receive.
 
-One can work out a VPN solution based on [Wireguard or go-libp2p](https://github.com/aabbtree77/esp32-mqtt-experiments#congratulations-you-had-a-problem-and-now-you-have-two) depending on whether one has a public static IP or not, resp. However, this requires quite some search and experimenting and the networking tools are complex and designed for bigger tasks such as the ability to create multi-purpose networks, access the whole remote OS via ssh or even RDC, when the problem at hand is just sending a simple text message to a remote machine.
+One can work out a VPN solution based on [Wireguard or go-libp2p](https://github.com/aabbtree77/esp32-mqtt-experiments#congratulations-you-had-a-problem-and-now-you-have-two) depending on whether one has a public static IP or not, resp. However, this requires quite some search and experimenting with network setups designed for much bigger tasks such as the ability to create multi-purpose networks, access the whole remote OS via ssh or even RDC, when the problem at hand is just sending a simple text message to a remote machine.
 
 The idea here is to communicate by uploading json files to any peer's github repo and cloning the others in the "read only" mode.
 
