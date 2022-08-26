@@ -5,7 +5,7 @@ The idea is to avoid complicated setups and protocols and rely on "git push" and
 
 *Warning 1. "git push" and "git clone" require a manual initial setup for each "peer" machine. This is also a very raw code and strictly a prototype for slow messaging as the code will incrementally flood your github folder history with each file update. As an example, communicating a json object with a few elements every 30 minutes has increased my .git folder by 60KB in 5 days. Thus, exchanging a single value message every 10s. between two peers for a month will yield two .git folders each as large as roughly 60KBx30x6x6=65MB. A year of such a continuous communication is likely to exceed your free github user quota.*
 
-*Warning 2. IPFS could be a much better way to implement a simple file-based communication accessible globally, less setup, more decentralization. However, it is not clear if IPFS will always expose every node behind any NAT configuration, while this silly-looking way will **ALWAYS** work irrespectively of the network configuration.* 
+*Warning 2. IPFS could be a much better way to implement a simple file-based communication accessible globally. However, it is not clear if the specific IPFS implementation will always expose every node behind any NAT configuration, while this silly-looking way will **ALWAYS** work irrespectively of the network configuration as long as github.com is online.* 
 
 ## Problem/Motivation
 
