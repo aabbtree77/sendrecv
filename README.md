@@ -1,15 +1,15 @@
 ## Introduction
 
 This is a memo which documents a way to send messages from computer to computer via the internet.
-The idea is to avoid complicated setups and protocols and rely on "git push" and "git clone" provided by Github as a free 3rd party service.
+The idea is to avoid complicated setups and protocols and rely on "git push" and "git clone" provided by github.com as a free 3rd party service.
 
-*Warning 1. "git push" and "git clone" may require quite some initial setup to be used as "send" and "receive". This is also a very raw code and strictly a prototype for slow messaging as the code will incrementally flood your github folder history with each file update. As an example, communicating a json object with a few elements every 30 minutes has increased my .git folder by 60KB in 5 days. Thus, exchanging a single value message every 10s. between two peers for a month will yield two .git folders each as large as roughly 60KBx30x6x6=65MB. A year of such a continuous communication is likely to exceed your free github user quota.*
+*Warning 1. "git push" and "git clone" require a manual initial setup for each "peer" machine. This is also a very raw code and strictly a prototype for slow messaging as the code will incrementally flood your github folder history with each file update. As an example, communicating a json object with a few elements every 30 minutes has increased my .git folder by 60KB in 5 days. Thus, exchanging a single value message every 10s. between two peers for a month will yield two .git folders each as large as roughly 60KBx30x6x6=65MB. A year of such a continuous communication is likely to exceed your free github user quota.*
 
-*Warning 2. IPFS could be a much better way to implement a simple file-based communication accessible globally, less setup, more decentralization, it simply the right tool. However, it is not clear if IPFS will always expose every node behind any NAT configuration, while this silly-looking github way will **ALWAYS** work irrespectively of the network configuration.* 
+*Warning 2. IPFS could be a much better way to implement a simple file-based communication accessible globally, less setup, more decentralization. However, it is not clear if IPFS will always expose every node behind any NAT configuration, while this silly-looking way will **ALWAYS** work irrespectively of the network configuration.* 
 
 ## Problem/Motivation
 
-How do you send messages from a computer A to a computer B globally, via the Internet, without a pain? 
+How do you send messages from a computer PC-A to a computer PC-B globally, via the internet, without a pain? 
 Imagine the situation not so atypical to the embedded software: One needs to control a remote board (which communicates with some PC-A on its LAN) from some PC-B (located outside 
 of the LAN).
 
@@ -19,11 +19,11 @@ An example application is monitoring temperature of a greenhouse and watering it
 
 Locally, the MQTT protocol with the Mosquitto broker on Ubuntu is a solid answer, but this option does not extend globally.
 
-One gets tired of dealing with multiple router configurations, ssh, tunneling, firewalls, hole punching, endless breaking changes, Wayland vs X11, VNC, RDP, MQTT, Remmina, TeamViewer, AnyDesk, CloudMQTT, HiveMQ, RustDesk... go-libp2p pubsub? If you are lucky, you can do a simple port forwarding in your router and use a slowly changing global IP and the port number to connect to any computer globally with Remmina, but that seems to work only with certain ISP NAT configurations. Unless IPFS is the answer, one may need a reliable 3rd party service to communicate on the web, preferably free and also hassle-free.
+It is assumed that both of the computers run Linux and have access to the internet, but port forwarding is broken. There is no need to RDC/ssh to any of them, they just, say, Python programs whose flow depends on the messages they receive.
 
-There are not that many choices. A mail service comes to mind, but also github, and this code is the demo of using the latter.  
+One can work out a VPN solution based on [Wireguard or go-libp2p](https://github.com/aabbtree77/esp32-mqtt-experiments#congratulations-you-had-a-problem-and-now-you-have-two) depending on whether one has a public static IP or not, resp. However, this requires quite some search and experimenting and the networking tools are complex and designed for bigger tasks such as the ability to create multi-purpose networks, access the whole remote OS via ssh or even RDC, when the problem at hand is just sending a simple text message to a remote machine.
 
-The idea is to communicate by uploading json files to any peer's github repo and cloning the others in the "read only" mode.
+The idea here is to communicate by uploading json files to any peer's github repo and cloning the others in the "read only" mode.
 
 In order not to have pushing conflicts when a remote branch is already updated, let's use one github repo per peer/client/server which will also be duplicated: Every peer will have its remote git "origin" (say on github.com) and local "main" (peer's PC or even Android).
 
@@ -52,9 +52,10 @@ Notice that there is no "git fetch" or "git pull" inside the codes, only "git cl
 
 The downside of this approach is that each peer/communicating node needs to register on github.com first, create a repo, set its access token. Thus, the end user of such a communication would be, say, a Python coder who wants to make his LAN nodes global by sending messages from PC to PC via the internet, in code, without having to deal with anything other than github.com. I find setting up and testing my github repositories a lot easier and more reliable than dealing with any 3rd party MQTT broker or remote desktop software.
 
-## References (Inspiration, Alternatives, Deeper and More Complex Ideas)
+## Inspiration, Alternatives, Deeper Ideas
 
 [using-git-repository-as-a-database-backend](https://stackoverflow.com/questions/20151158/using-git-repository-as-a-database-backend)
 
 [git-nosql-database](https://www.kenneth-truyers.net/2016/10/13/git-nosql-database/)
-   
+
+[nat-traversal-github-actions-openvpn-wireguard](https://github.com/ValdikSS/nat-traversal-github-actions-openvpn-wireguard)   
